@@ -6,12 +6,12 @@ using Policies;
 
 [Route("api/[Controller]")]
 [ApiController]
-public class RequestController(ClientPolicy clientPolicy) : ControllerBase
+public class RequestController(ClientPolicy clientPolicy, IHttpClientFactory clientFactory) : ControllerBase
 {
 	[HttpGet]
 	public async Task<ActionResult> MakeRequest()
 	{
-		var client = new HttpClient();
+		var client = clientFactory.CreateClient();
 
 		var response = await clientPolicy.ExponentialHttpRetry.ExecuteAsync(() => client.GetAsync("http://localhost:5020/api/response/25"));
 
