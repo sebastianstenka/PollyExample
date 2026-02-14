@@ -15,9 +15,11 @@ public class ResponseController : ControllerBase
 
 		if (randomNumber >= id)
 		{
+			Console.WriteLine("Request failed");
 			return StatusCode(StatusCodes.Status500InternalServerError);
 		}
 
+		Console.WriteLine("Request successful");
 		return Ok();
 	}
 }

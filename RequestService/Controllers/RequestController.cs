@@ -13,13 +13,15 @@ public class RequestController(ClientPolicy clientPolicy) : ControllerBase
 	{
 		var client = new HttpClient();
 
-		var response = await client.GetAsync("http://localhost:5020/api/response/25");
+		var response = await clientPolicy.ImmediateHttpRetry.ExecuteAsync(() => client.GetAsync("http://localhost:5020/api/response/25"));
 
 		if (response.IsSuccessStatusCode)
 		{
+			Console.WriteLine("Request successful");
 			return Ok();
 		}
 
+		Console.WriteLine("Request failed");
 		return StatusCode(StatusCodes.Status500InternalServerError);
 	}
 }
