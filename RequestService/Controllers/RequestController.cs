@@ -13,7 +13,7 @@ public class RequestController(ClientPolicy clientPolicy) : ControllerBase
 	{
 		var client = new HttpClient();
 
-		var response = await clientPolicy.LinearHttpRetry.ExecuteAsync(() => client.GetAsync("http://localhost:5020/api/response/25"));
+		var response = await clientPolicy.ExponentialHttpRetry.ExecuteAsync(() => client.GetAsync("http://localhost:5020/api/response/25"));
 
 		if (response.IsSuccessStatusCode)
 		{
